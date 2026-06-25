@@ -32,7 +32,7 @@
 | 变量 | 必填 | 默认值 | 说明 |
 |------|------|--------|------|
 | `MYADDR` | ✅ | 无 | 公网 IP 或 DDNS 域名。**强烈推荐用纯 IPv4 DDNS 域名** |
-| `ZTNCUI_PASSWD` | ❌ | `13084287744lu` | ztncui 管理密码 |
+| `ZTNCUI_PASSWD` | ❌ | `password` | ztncui 管理密码 |
 | `GENERATE_PLANET` | ❌ | `true` | 是否生成真正的 planet 文件 |
 | `HTTP_PORT` | ❌ | `3000` | ztncui HTTP 端口 |
 | `HTTP_ALL_INTERFACES` | ❌ | `yes` | 是否监听所有接口。设置后 ztncui 只监听 HTTP_PORT，不启用 HTTPS |
@@ -47,7 +47,7 @@ services:
     restart: unless-stopped
     network_mode: host
     environment:
-      - MYADDR=ztvpn.lushixin.cn
+      - MYADDR=example.com
       - HTTP_PORT=23000
       - HTTP_ALL_INTERFACES=yes
       - ZTNCUI_PASSWD=your_password
@@ -76,7 +76,7 @@ services:
 
 对于**动态公网 IP**环境，这是最优方案：
 
-1. 配置一个**只返回 A 记录**的 DDNS 域名，如 `ztvpn4.lushixin.cn`
+1. 配置一个**只返回 A 记录**的 DDNS 域名，如 `zt.example.com`
 2. 客户端安装 moon 文件
 3. IP 变化后，DDNS 更新，客户端自动解析新 IP
 4. **无需重新安装 moon 文件**
@@ -97,7 +97,7 @@ services:
 
 ```bash
 # 下载 moon 文件
-wget https://ztvpn.lushixin.cn:23180/000000xxxxxxxxxx.moon
+wget https://example.com:23180/000000xxxxxxxxxx.moon
 
 # 安装
 mkdir -p /var/lib/zerotier-one/moons.d
@@ -112,7 +112,7 @@ zerotier-cli listmoons
 
 ```bash
 # 下载 planet 文件
-wget https://ztvpn.lushixin.cn:23180/planet
+wget https://example.com:23180/planet
 
 # 替换
 systemctl stop zerotier-one
@@ -264,11 +264,11 @@ docker build --platform linux/amd64 -t lu920115/zerotier-planet:v1.16.2.2 .
 
 | 规则名 | 来源 | 目标 |
 |--------|------|------|
-| zerotier-planet9993 | wan:9993/udp | 192.168.5.88:9993/udp |
-| zerotier-planet29993 | wan:29993/udp | 192.168.5.88:29993/udp |
-| zerotier-planet39993 | wan:39993/udp | 192.168.5.88:39993/udp |
-| ztncui-web | wan:23000/tcp | 192.168.5.88:23000/tcp |
-| ztplaserv-download | wan:23180/tcp | 192.168.5.88:23180/tcp |
+| zerotier-planet9993 | wan:9993/udp | 192.168.*.*:9993/udp |
+| zerotier-planet29993 | wan:29993/udp | 192.168.*.*:29993/udp |
+| zerotier-planet39993 | wan:39993/udp | 192.168.*.*:39993/udp |
+| ztncui-web | wan:23000/tcp | 192.168.*.*:23000/tcp |
+| ztplaserv-download | wan:23180/tcp | 192.168.*.*:23180/tcp |
 
 ## 通信规则示例（IPv6）
 

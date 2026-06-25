@@ -41,7 +41,7 @@ if [ -z "$MYADDR" ]; then
     echo "ERROR: MYADDR environment variable is required."
     echo ""
     echo "Recommended: use an IPv4-only DDNS domain for dynamic public IP:"
-    echo "  MYADDR=ztvpn4.lushixin.cn"
+    echo "  MYADDR=zt.example.com"
     echo ""
     echo "Note: do NOT use a domain with AAAA (IPv6) record if your clients only have IPv4."
     exit 1
@@ -62,7 +62,7 @@ IPV4_ADDR=$(python3 -c "import socket; print([x[4][0] for x in socket.getaddrinf
 if [ -z "$IPV4_ADDR" ]; then
     echo "ERROR: Failed to resolve IPv4 address for ${MYADDR}."
     echo "If your domain has AAAA (IPv6) record but no A record, moon/planet generation will fail."
-    echo "Please use an IPv4-only DDNS domain like ztvpn4.lushixin.cn."
+    echo "Please use an IPv4-only DDNS domain like zt.example.com."
     exit 1
 fi
 echo "Resolved IPv4 address: ${IPV4_ADDR}"
@@ -103,7 +103,7 @@ MOON_FILE=$(ls ./*.moon 2>/dev/null | head -1)
 echo "Generated moon file: ${MOON_FILE}"
 echo ""
 echo ">>> To use MOON (recommended for dynamic IP):"
-echo "    wget https://ztvpn.lushixin.cn:23180/$(basename ${MOON_FILE})"
+echo "    wget https://example.com:23180/$(basename ${MOON_FILE})"
 echo "    mkdir -p /var/lib/zerotier-one/moons.d"
 echo "    cp $(basename ${MOON_FILE}) /var/lib/zerotier-one/moons.d/"
 echo "    systemctl restart zerotier-one"
@@ -123,7 +123,7 @@ if [ "$GENERATE_PLANET" = "true" ]; then
     echo "Planet file generated: $(ls -la planet)"
     echo ""
     echo ">>> To use PLANET replacement (only for fixed IP or special devices):"
-    echo "    wget https://ztvpn.lushixin.cn:23180/planet"
+    echo "    wget https://example.com:23180/planet"
     echo "    cp planet /var/lib/zerotier-one/planet"
     echo "    systemctl restart zerotier-one"
     echo "    WARNING: if your public IP changes, you must redistribute this file."
